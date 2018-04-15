@@ -127,7 +127,6 @@
   {
 
   }
-  ```
 
 1.  Within the **ToString** method, add the following line of code:
 
