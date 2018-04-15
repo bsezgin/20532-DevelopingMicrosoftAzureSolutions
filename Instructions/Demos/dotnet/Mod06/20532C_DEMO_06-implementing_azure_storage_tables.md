@@ -193,16 +193,14 @@
 	table.ExecuteBatch(batchOperation);
 	```
 
-1.  At the end of the **Main** method and before the closing parenthesis, create a string filter to retrieve only entities with a partition key of **HR** by using the **TableQuery.GenerateFilterCondition** static method:
-
-	```
-	string queryFilter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "HR");
-	```
 
 1.  On the next line, create a new **TableQuery** and invoke the **Where** method by using the string filter, as shown below:
 
 	```
-	TableQuery<Employee> query = new TableQuery<Employee>().Where(queryFilter);
+	TableQuery<Employee> query = new TableQuery<Employee>().Where(
+   	TableQuery.GenerateFilterCondition("PartitionKey",
+   	QueryComparisons.Equal, "HR")
+   	);
 	```
 
 1.  On the next line, write a header to the Console window, as shown below:
@@ -216,15 +214,9 @@
 	```
 	foreach (Employee hrEmployee in table.ExecuteQuery<Employee>(query))
   {
-
-  }
-  ```
-
-1.  Within the loop, write the **Employee** object to the Console window, as shown below:
-
-	```
 	Console.WriteLine(hrEmployee);
-	```
+  }
+
 
 1.  At the end of the main method and before the closing parenthesis, write a header to the Console window:
 
@@ -235,7 +227,7 @@
 1.  On the next line, create a new **TableOperation** to retrieve the single entity with a partition key of **IT** and row key of **ibahena**:
 
 	```
-	TableOperation retrieveOperation = TableOperation.Retrieve<Employee>("IT", "ibahena");
+	TableOperation retrieveOperation = TableOperation.Retrieve<Employee>("IT","ibahena");
 	```
 
 1.  On the next line, execute the **TableOperation** by using the **Execute** method of the table variable and store the result in a *TableResult* variable, as shown below:
@@ -247,7 +239,7 @@
 1.  On the next line, cast the **Result** property of the *TableResult* variable to an **Employee** object, as shown below:
 
 	```
-	Employee itEmployee = (Employee)result.Result;
+	Employee itEmployee = result.Result as Employee;
 	```
 
 1.  On the next line, write the **Employee** object to the Console window, as shown below:
